@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+#from Loma.models import md
+from Loma.models import Loma_master, md
 from django.db import models
 from products.models import product
 
@@ -8,9 +9,10 @@ from products.models import product
 class vendor_master(models.Model):
     Vendor_name = models.CharField(max_length=120)
     Vendor_Address = models.CharField(max_length=120)
-    Vendor_mandi_name = models.CharField(max_length=120)
+    Vendor_mandi_name = models.ForeignKey(md, blank=True)
+    loma_id = models.ForeignKey(Loma_master)
     loma_name = models.CharField(max_length=120)
-    loma_zone = models.CharField(max_length=120)
+    #loma_zone = models.CharField(max_length=120)
     username = models.CharField(max_length=120, unique = True)
     password = models.CharField(max_length=120)
     vendor_mobile_no = models.IntegerField(default = 0.00)
@@ -24,12 +26,14 @@ class vendor_master(models.Model):
     active = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return str(self.loma_zone)
+        return "Username: %s, Zone: %s" %(self.username, self.loma_zone)
 
 #model jaha vendors aaakr apne apne price daaalenge.......
 #than ye price loma ke pass jaaayenge jaha show honge.....
 class vendor_daily_PL(models.Model):
     vendor = models.ForeignKey(vendor_master)
+    loma_id = models.ForeignKey(Loma_master)
+    Mandi_name = models.ForeignKey(md)
     product = models.ForeignKey(product)
     product_name = models.CharField(max_length=120, blank=True)
     offer_price = models.FloatField(null=False)
@@ -38,5 +42,5 @@ class vendor_daily_PL(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
-        return 'Product name: %s, zone: %s' % (self.product_name,self.vendor)
+        return 'Product name: %s, username and zone are : %s' %(self.product_name,self.vendor)
 

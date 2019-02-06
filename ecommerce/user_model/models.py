@@ -29,13 +29,14 @@ class register_model(models.Model):
         return reverse('details', kwargs={'pk':self.pk})'''
 
     def __str__(self):
-        return self.email
+        return str(self.id)
 
 class address(models.Model):
     user = models.ForeignKey(register_model)
     city = models.CharField(max_length=30)
     service_area = models.CharField(max_length=100)
     local_address = models.CharField(max_length=200)
+    landmark = models.CharField(max_length=120, null=True)
     pin = models.PositiveIntegerField()
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 

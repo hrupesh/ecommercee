@@ -5,8 +5,8 @@ from django.contrib import admin
 
 # Register your models here.
 class CartItem(admin.ModelAdmin):
-    list_display = ['product','quantity', 'price', 'updated']
-    search_fields = ['product']
+    list_display = ['user_id','quantity', 'price', 'updated']
+    search_fields = ['user_id']
     readonly_fields = ['timestamp', 'updated']
 
 

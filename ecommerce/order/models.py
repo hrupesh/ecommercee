@@ -20,6 +20,7 @@ timeslot_CHOICES = (
     ("secand_slot","10:am - 1:00pm"),
     ("third_slot", "1:00pm - 4:00pm"),
     ("fourth_slot", "4:00pm - 7:00pm"),
+    ("fifth_slot", "7:00pm - 9:00pm"),
 )
 
 class Order(models.Model):
@@ -29,14 +30,21 @@ class Order(models.Model):
     #order_total = models.ForeignKey('order_total', null = True)
     timeslot = models.CharField(max_length=120, choices= timeslot_CHOICES, default="Any-time")
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    #dp  = models.ForeignKey()
     #updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __str__(self):
+        #jo order id banegi
+        #order_id aaayegi yaha
+        #return str(self.order_id)
         return str(self.cart)
 
 class order_total(models.Model):
     #total without promocode
-    order_id = models.ForeignKey('Order')
+    #order_id banayenge jab hum code karenge 
+    #id apan 'uuid' se bnayenge 128 bit kii integer sedhaa
+    #order_id = models.CharField(max_length=120)
+    order_name = models.ForeignKey('Order')
     total = models.DecimalField(default=19.99, max_digits=10, decimal_places=2)
     #promocode = models.ForeignKey(promocode_model, blank = True)
     tax_total = models.DecimalField(default=0.00, max_digits=10, decimal_places=2)
@@ -46,4 +54,4 @@ class order_total(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     def __str__(self):
-        return str(self.order_id)
+        return str(self.order_name)

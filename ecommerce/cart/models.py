@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from products.models import product, product_Image, product_price
 from django.db import models
+from user_model.models import register_model
 
 # Create your models here.
 
@@ -14,6 +15,7 @@ class subT(models.Manager):
 
 class cartitem(models.Model):
     #cart = models.ForeignKey('Carttotal', null=True, blank=True)
+    user_id = models.ForeignKey(register_model)
     product = models.ForeignKey(product, null=True, blank=True)
     productImage = models.ForeignKey(product_Image, null=True, blank=True)
     quantity = models.IntegerField(default=1)
@@ -25,13 +27,11 @@ class cartitem(models.Model):
 
 
     def __unicode__(self):
-        try:
-            return str(self.cart.id)
-        except:
-            return self.product.title
+        return str(self.user_id)
 
 
 class carttotal(models.Model):
+    user_id = models.ForeignKey(register_model)
     cart = models.ForeignKey('cartitem', null=True, blank=True)
     Total = models.FloatField(default=0.00)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -39,5 +39,5 @@ class carttotal(models.Model):
     active = models.BooleanField(default=True)
 
     def __unicode__(self):
-        return "cart id: %s" %(self.id)
+        return str(self.user_id)
 

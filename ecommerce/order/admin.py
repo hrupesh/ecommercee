@@ -17,8 +17,8 @@ admin.site.register(Order, order_display)
 
 
 class order_total_display(admin.ModelAdmin):
-    list_display = ['order_id', 'total', 'tax_total', 'final_total', 'timestamp']
-    search_fields = ['order_id']
+    list_display = ['order_name', 'total', 'tax_total', 'final_total', 'timestamp']
+    search_fields = ['order_name']
     #date_hierarchy = ['timestamp']
     readonly_fields = ['timestamp']
 
