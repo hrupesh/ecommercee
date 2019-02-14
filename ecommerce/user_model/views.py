@@ -37,13 +37,13 @@ def user_signup(request):
     try:
 
     #csrfContext = RequestContext(request)
-        print "hey"
+        print ("hey")
         if request.method == 'POST':
             #form = SignupForm(request.POST or None)
             #if form.is_valid():
             #password = form.cleaned_data['password']
             password = request.POST['password']
-            print password
+            #print password
             #form.password = make_password(password)
             #pswd = form.password
             #print pswd
@@ -66,8 +66,8 @@ def user_signup(request):
             if not (register_model.objects.filter(username=username).exists() or register_model.objects.filter(email=email).exists()):
                 #user.password = make_password(password)
                 pd = user.password
-                print "encrpted passwd is"
-                print pd
+             #   print "encrpted passwd is"
+              #  print pd
                 user.save()
                 current_site = get_current_site(request)
                 subject = 'Activate your account.'
@@ -158,11 +158,10 @@ def user_login(request):
             #user = authenticate(username = username, password = password)
             if passwd:
                 user = register_model.objects.get(username=username , password = passwordd)
-            else:
-                print "error"
+            #    print "error"
             #return HttpResponse(user)
             #return HttpResponse(user.username)
-            if user:
+        if user:
                 print(user)
                 #return HttpResponse(user.id)
                 #request.session['signupp_id'] = user
@@ -189,25 +188,25 @@ def user_login(request):
 
 
 def password_reset(request):
-    print "hey"
+    #print "hey"
     if request.method == 'POST':
-        print "problem"
+     #   print "problem"
         email = request.POST['email']
         try:
             users = register_model.objects.get(email=email)
         except:
             users = None
 
-        print email
+      #  print email
 
         if users is not None:
-            print "password reset process"
+       #     print "password reset process"
             context = {
                 "message" : "you are registered user"
             }
             user = users
             user.save()
-            print user
+        #    print user
             current_site = get_current_site(request)
             subject = 'rest password of your account.'
             message = render_to_string('user_model/password_reset_confirm.html', {
@@ -221,8 +220,8 @@ def password_reset(request):
             Email.send()
             request.session['user_id'] = user.id
             new_id = user.id
-            print "session is"
-            print new_id
+         #   print "session is"
+          #  print new_id
             #return HttpResponse("Activation link is sent to an email, Please activate your account")
             #return render(request, 'S_W/confirmaton.html')
             context = {
@@ -231,8 +230,8 @@ def password_reset(request):
             return render(request, 'user_model/password_reset.html', context)
 
         else:
-            print "Something wents wrong"
-            print "please try again with different ID"
+           # print "Something wents wrong"
+            #print "please try again with different ID"
             context = {
                 "message" : "you are not registered user"
             }
@@ -241,7 +240,7 @@ def password_reset(request):
         context = {
             "message" : "Please Enter your Email......"
         }
-        print "Sorry"
+        #print "Sorry"
 
     return render(request, 'user_model/password_reset.html', context)
 
@@ -249,29 +248,29 @@ def password_reset(request):
 def password_reset_new(request):
 
         new_id = request.session['user_id']
-        print new_id
+        #print new_id
         if new_id is not None:
-            print new_id
+         #   print new_id
             if request.method == 'POST':
                 try:
                     user = register_model.objects.get(id = new_id)
-                    print "User is"
-                    print user
+           #         print "User is"
+          #          print user
                 except:
                     user = None
                 if user is not None:           
-                    print new_id
+            #        print new_id
                     old_password = request.POST['old_password']
                     new_password = request.POST['new_password']
-                    print old_password
-                    print user.password
+             #       print old_password
+              #      print user.password
                     confirm_password = make_password(old_password)
                     #print password
 
                     if (old_password == new_password):
-                        print "passwords are same"
+               #         print "passwords are same"
                         user.password = confirm_password
-                        print user.password
+                #        print user.password
                         user.is_active = True
                         user.email_confirmed = True
                         user.save()
@@ -289,7 +288,7 @@ def password_reset_new(request):
                         # 
 
                     else:
-                        print "passswords are not same"
+                 #       print "passswords are not same"
                         
                         context = {
                             "message": "your password is not changed, both passwords are not same",
@@ -298,7 +297,7 @@ def password_reset_new(request):
                     
                 
                 else:
-                    print "user is none"
+                  #  print "user is none"
                 # print user
                 # print user.firstname
                 # print user.password
@@ -314,7 +313,7 @@ def password_reset_new(request):
                     }
 
             else:
-                print "you are on secand path"
+            #    print "you are on secand path"
 
                 context = {
                         "message": "you are on wrong path"

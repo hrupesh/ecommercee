@@ -1,94 +1,93 @@
-
-
-
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Products Page</title>
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    {% include "products/base.html" %}
-
-    <div class="container">
-        <div class="row">
-            {% for product in products %}
-            <div class="col-md-4" style="width:350px;">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        {% for item in product.product_image_set.all %}
-                            <img class="activator" style="height: 200px;" src="{{ MEDIA_URL }}{{ item.image }}">
-                        {% endfor %}
-                    </div>
-                    <div class="card-content">
-                           <span class="card-title activator grey-text text-darken-4">{{ product.title }}<i class="material-icons right">more_vert</i></span>
-                        <div class="row">
-                            <div class="col-sm-4 text-center">
-                                {% for item in product.product_price_set.all %}
-                                    <span class="text-muted ">M.R.P:<strike>{{ item.price }}</strike></span>
-                                {% endfor %}
-                            </div>
-                            <div class="col-sm-4 text-right pr-0">
-                                {% for item in product.product_discount_set.all %}    
-                                    <span class="text-darken-4">Rs {{ item.Offer }} (Kg)</span>
-                                {% endfor %}
-                            </div>
-                            <div class="col-sm-4 text-left pr-1">
-                                {% for item in product.product_discount_set.all %}  
-                                    <span class="text-success">{{ item.Offer }}% OFF</span>
-                                {% endfor %}
-                            </div>
-
+{% extends 'products/base.html' %} {% block body %} {% load staticfiles %}
+<div class="container mt-4 w-75">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4 col-sm-12 col-12">
+            <div class="card border-dark mb-4" style="width:100%;">
+                <img class="card-img-top" style="height:250px;" src="{% static '/images/about.jpg' %}" alt="Card image cap">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <span class="text-muted">M.R.P: <del> 66 </del></span>
                         </div>
-                        <div style="margin:20px;margin-right: 0px;margin-bottom: 0px;">
-                            <button id="addbtn" class="btn  waves-effect waves-green btn-small"><i class="material-icons large">add</i></button> <button class="btn btn-small">Add to Cart (<span id="cartqty" >1</span>) </button> <button class="btn waves-effect waves-red btn-small"
-                                id="subbtn"><i class="material-icons large">remove</i></button>
+                        <div class="col text-right p-0">
+                            <span class="text-darken-4"><i class="fas fa-rupee-sign"></i> 20(Kg)</span>
+                        </div>
+                        <div class="col text-left pr-1">
+                            <span class="text-success"> 69% OFF</span>
                         </div>
                     </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Product 1<i class="material-icons right">close</i></span>
-                        <p>this is product aur bhi likh denge yah pe, price OP, LP e.t.c</p>
+                    <div class="row mt-3">
+                        <button id="addbtn" class="btn col-2 btn-success" style="margin-left: 10px; margin-right:-10px;"><i
+                                class="fa fa-plus" style="position: absolute;top:25%;right:25%;"></i></button>
+                        <div class="col-1 p-0" style="width: 10px !important;"></div>
+                        <button class="btn col-6  btn-outline-primary atc" style="padding-left:10px;">Add to Cart (<span id="cartqty">1</span>)</button>
+                        <div class="col-1 p-0"></div>
+                        <button class="btn col-2  btn-danger " style=" margin-left:-10px;" id="subbtn"><i
+                                class="fas fa-minus" style="position: absolute;top:25%;right:25%;"></i></button>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <script>
-                $('#addbtn').on('click', function() {
-                    items = parseInt(document.getElementById('cartqty').innerText);
-                    if (items < 20) {
-                        items += 1;
-                    }
-                    $('#cartqty').html(items)
-                });
-                $('#subbtn').on('click', function() {
-                    items = parseInt(document.getElementById('cartqty').innerText);
-                    if (items > 1) {
-                        items -= 1;
-                    }
-                    $('#cartqty').html(items)
-                });
-            </script>
-            <style>
-                * {
-                    font-family: raleway;
-                }
-                
-                .card {
-                    transition: all 1.0s;
-                }
-                
-                .card:hover {
-                    transition: all 0.5s;
-                    transform: scale(1.05);
-                }
-            </style>
-            
         </div>
+        {% endfor %}
     </div>
+</div>
+
+<style>
+    .btn {
+        border-radius: 40px;
+        transition: all 0.5s;
+    }
+    
+    .btn:hover {
+        transform: scale(1.05);
+        transition: all 0.2s;
+    }
+    
+    .card {
+        transition: all 0.5s;
+    }
+    
+    .card:hover {
+        transition: all 0.2s;
+        transform: scale(1.01);
+    }
+    
+    @media screen and (min-width: 600px) and (max-width:1000px) {
+        .atc {
+            font-size: 10px;
+        }
+    }
+    
+    @media screen and (max-width: 550px) {
+        .atc {
+            font-size: 10px;
+        }
+    }
+    
+    @media screen and (max-width: 450px) {
+        .col {
+            padding: 0px;
+        }
+    }
+</style>
+<script>
+    console.log('hello');
+    $('#addbtn').on('click', function() {
+        items = parseInt(document.getElementById('cartqty').innerText);
+        if (items <
+            20) {
+            items += 1;
+        }
+        $('#cartqty').html(items)
+    });
+    $('#subbtn').on('click', function() {
+        items = parseInt(document.getElementById('cartqty').innerText);
+        if (items > 1) {
+            items -= 1;
+        }
+        $('#cartqty').html(items)
+    });
+</script>
+
+{% endblock %}
